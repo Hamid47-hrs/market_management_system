@@ -1,0 +1,10 @@
+{
+    "recommendations": [
+        "ms-mssql.sql-bindings-vscode",
+        "formulahendry.dotnet-test-explorer",
+        "mtxr.sqltools-driver-mssql",
+        "mtxr.sqltools",
+        "jmrog.vscode-nuget-package-manager",
+        "zhuangtongfa.material-theme"
+    ]
+}

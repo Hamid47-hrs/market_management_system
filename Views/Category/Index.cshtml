@@ -1,0 +1,31 @@
+@{
+@model List<Category>;
+    ViewData["Title"] = "Category";
+}
+<h1>@ViewData["Title"]</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr class="table-info">
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var cat in Model)
+        {
+                <tr class="align-middle">
+                    <td>@cat.Id</td>
+                    <td>@cat.Name</td>
+                    <td>@cat.Description</td>
+                    <td style="white-space:nowrap">
+                        <a asp-controller="Category" asp-action="Edit" asp-route-id="@(cat.Id)"
+                            class="btn btn-outline-primary btn-sm">Edit</a>
+                        <a href="@($"/Category/Delete?id={cat.Id}")" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+        }
+    </tbody>
+</table>
