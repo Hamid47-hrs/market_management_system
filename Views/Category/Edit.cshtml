@@ -1,8 +1,44 @@
-@using market_management_system.Models;
 @{
+    @model Category
     ViewData["Title"] = "Edit Category";
 }
 
 <div class="text-center">
-    <h1 class="display-4">@ViewData["Ttitle"]</h1>
+    <h1 class="display-4">@ViewData["Title"]</h1>
+    @if (Model != null)
+    {
+        <div class="mt-5">
+            <form method="post">
+                <input type="hidden" asp-for="Id">
+                <div class="row mb-3">
+                    <div class="col-2">
+                        <label class="col-form-label" asp-for="Name"></label>
+                    </div>
+                    <div class="col-6">
+                        <input class="form-control" type="text" asp-for="Name" />
+                        <span class="text-danger" asp-validation-for="Name"></span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-2">
+                        <label class="col-form-label" asp-for="Description"></label>
+                    </div>
+                    <div class="col-6">
+                        <textarea class="form-control" type="text" asp-for="Description" rows="7"></textarea>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-2">
+                        <input class="btn btn-primary" type="submit" value="Save">
+                    </div>
+                </div>
+            </form>
+        </div>
+    }
+    else
+    {
+        <div class="mt-5">
+            <h2>No Item with this ID exists.</h2>
+        </div>
+    }
 </div>

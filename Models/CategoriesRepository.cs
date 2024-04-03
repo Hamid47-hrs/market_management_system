@@ -64,7 +64,7 @@ public static class CategoriesRepository
         if (id != newCategory.Id)
             return;
 
-        var categoryToUpdate = ReadCategoryById(id);
+        var categoryToUpdate = _categories.FirstOrDefault(item => item.Id == id);
         if (categoryToUpdate != null)
         {
             categoryToUpdate.Name = newCategory.Name;
