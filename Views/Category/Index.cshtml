@@ -23,9 +23,37 @@
                 <td style="white-space:nowrap">
                     <a asp-controller="Category" asp-action="Edit" asp-route-id="@(cat.Id)"
                         class="btn btn-outline-primary btn-sm">Edit</a>
-                    <a href="@($"/Category/Delete?id={cat.Id}")" class="btn btn-danger btn-sm">Delete</a>
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#DeleteModal">Delete</button>
                 </td>
             </tr>
+            <!-- Delete Modal -->
+            <div class="modal fade" id="DeleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Delete Category</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row mb-3">
+                                <p>Are you Sure to Delete the Category?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <div class="offset-sm-4">
+                                    <a href="@($"/Category/Delete?id={cat.Id}")" class="btn btn-danger">Delete</a>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         }
     </tbody>
 </table>
+
+<div class="row mb-3">
+    <div class="col-2">
+        <a class="btn btn-primary" asp-controller="Category" asp-action="Add">Add</a>
+    </div>
+</div>
