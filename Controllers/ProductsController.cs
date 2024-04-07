@@ -1,4 +1,5 @@
 ﻿using market_management_system.Models;
+using market_management_system.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace market_management_system.Controllers
@@ -14,18 +15,24 @@ namespace market_management_system.Controllers
 
         public IActionResult Add()
         {
-            return View();
+            var productViewModel = new ProductViewModel
+            {
+                Categories = CategoriesRepository.ReadCategories()
+            };
+
+            return View(productViewModel);
         }
 
         [HttpPost]
-        public IActionResult Add(Product product)
+        public IActionResult Add(ProductViewModel productViewModel)
         {
             if (!ModelState.IsValid)
             {
-                return View(product);
+                productViewModel.Categories = CategoriesRepository.ReadCategories();
+                return View(productViewModel);
             }
 
-            ProductsRepository.CreateProduct(product);
+            ProductsRepository.CreateProduct(productViewModel.Product);
 
             return RedirectToAction(nameof(Index));
         }
@@ -33,20 +40,26 @@ namespace market_management_system.Controllers
         public IActionResult Edit(string? id)
         {
             int productId = int.Parse(id ?? "");
-            Product product = ProductsRepository.ReadProductById(productId)!;
 
-            return View(product);
+            var productViewModel = new ProductViewModel
+            {
+                Product = ProductsRepository.ReadProductById(productId) ?? new Product(),
+                Categories = CategoriesRepository.ReadCategories()
+            };
+
+            return View(productViewModel);
         }
 
         [HttpPost]
-        public IActionResult Edit(Product product)
+        public IActionResult Edit(ProductViewModel productViewModel)
         {
             if (!ModelState.IsValid)
             {
-                return View(product);
+                productViewModel.Categories = CategoriesRepository.ReadCategories();
+                return View(productViewModel);
             }
 
-            ProductsRepository.UpdateProduct(product.Id, product);
+            ProductsRepository.UpdateProduct(productViewModel.Product.Id, productViewModel.Product);
 
             return RedirectToAction(nameof(Index));
         }

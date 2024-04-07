@@ -56,8 +56,18 @@
 
         public static void CreateProduct(Product product)
         {
-            var lastId = _products.Max(prod => prod.Id);
-            product.Id = lastId + 1;
+            if (_products != null && _products.Count > 0)
+            {
+                var lastId = _products.Max(prod => prod.Id);
+                product.Id = lastId + 1;
+            }
+            else
+            {
+                product.Id = 1;
+            }
+
+            _products ??= [];
+
             _products.Add(product);
         }
 

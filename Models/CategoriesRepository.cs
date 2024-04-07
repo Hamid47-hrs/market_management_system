@@ -36,8 +36,18 @@ public static class CategoriesRepository
 
     public static void CreateCategory(Category category)
     {
-        var lastId = _categories.Max(item => item.Id);
-        category.Id = lastId + 1;
+        if (_categories != null && _categories.Count > 0)
+        {
+            var lastId = _categories.Max(item => item.Id);
+            category.Id = lastId + 1;
+        }
+        else
+        {
+            category.Id = 1;
+        }
+
+        _categories ??= [];
+
         _categories.Add(category);
     }
 
