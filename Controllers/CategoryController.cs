@@ -8,6 +8,7 @@ public class CategoryController : Controller
     public IActionResult Index()
     {
         var categories = CategoriesRepository.ReadCategories();
+
         return View(categories);
     }
 
@@ -25,6 +26,7 @@ public class CategoryController : Controller
         }
 
         CategoriesRepository.CreateCategory(category);
+
         return RedirectToAction(nameof(Index));
     }
 
@@ -45,6 +47,7 @@ public class CategoryController : Controller
         }
 
         CategoriesRepository.UpdateCategory(category.Id, category);
+
         return RedirectToAction(nameof(Index));
     }
 
@@ -52,6 +55,7 @@ public class CategoryController : Controller
     {
         int CategoryId = int.Parse(id ?? "");
         CategoriesRepository.DeleteCategory(CategoryId);
+
         return RedirectToAction(nameof(Index));
     }
 }

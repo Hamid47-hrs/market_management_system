@@ -46,6 +46,7 @@ public static class CategoriesRepository
     public static Category? ReadCategoryById(int id)
     {
         var category = _categories.FirstOrDefault(item => item.Id == id);
+
         if (category != null)
         {
             return new Category
@@ -65,6 +66,7 @@ public static class CategoriesRepository
             return;
 
         var categoryToUpdate = _categories.FirstOrDefault(item => item.Id == id);
+
         if (categoryToUpdate != null)
         {
             categoryToUpdate.Name = newCategory.Name;
