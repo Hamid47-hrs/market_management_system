@@ -20,3 +20,8 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.highlight {
+  background-color: #352fe3;
+  color: white !important;
+}

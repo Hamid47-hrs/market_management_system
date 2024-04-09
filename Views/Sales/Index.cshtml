@@ -32,13 +32,23 @@
 
         <br />
 
-        <div>
-            @* prod detail *@
+        <div id="productDetail" class="mt-5">
+            @* * Partial View of Product Details *@
         </div>
 
         <br />
 
-        @* sales form *@
+        <form id="formSale" method="post" asp-controller="sales" asp-action="sell">
+            <input type="hidden" asp-form="SelectedProductId" />
+            <div class="form-group">
+                <label asp-for="SellQuantity"></label>
+                <input class="form-control" type="number" asp-for="SellQuantity" min="1" />
+            </div>
+            <br />
+            <div class="form-group">
+                <input class="btn btn-primary" type="submit" value="submit" />
+            </div>
+        </form>
     </div>
     <div class="col">
         @* trans record *@
@@ -51,9 +61,31 @@
 
         // Handle Category selection
         $(function () {
+
+            $("#formSale").hide();
+
             $("#SelectedCategoryId").on("change", function () {
                 $("#productsContainer").load("/products/ProductsByCategoryPartial", { categoryId: $(this).val() });
-            })
+                $("#productDetail").html("");
+                $("#formSale").hide();
+            });
+
+            $("#productsContainer").on("click", ".product-row", function () {
+                $(".product-row").removeClass("highlight");
+                $(this).addClass('highlight');
+
+                var productId = $(this).attr("product-id");
+
+                $("#productDetail").load("/sales/SalesProductPartial", { productId: productId });
+
+                if (productId > 0) {
+                    $("#SelectedProductId").val(productId);
+                    $("#formSale").show();
+                }
+                else {
+                    $("#formSale").hide();
+                }
+            });
         });
     </script>
 }

@@ -15,5 +15,12 @@ namespace market_management_system.Controllers
 
             return View(salesViewModel);
         }
+
+        public IActionResult SalesProductPartial(int productId)
+        {
+            var product = ProductsRepository.ReadProductById(productId);
+
+            return PartialView("_ProductDetails", product);
+        }
     }
 };
