@@ -1,0 +1,73 @@
+@model TransactionsViewModel
+
+<form method="post" asp-controller="Transactions" asp-action="Search" id="transactions">
+    <div class="row">
+        <div class="col-2">
+            <label asp-for="CashierName"></label>
+            <input class="form-control" type="text" asp-for="CashierName" />
+        </div>
+        <div class="col-3">
+            <label asp-for="StartDate"></label>
+            <input class="form-control" type="date" asp-for="StartDate" />
+        </div>
+        <div class="col-3">
+            <label asp-for="EndDate"></label>
+            <input class="form-control" type="date" asp-for="EndDate" />
+        </div>
+        <div class="col-2">
+            <label>&nbsp;</label>
+            <button class="btn btn-primary form-control" type="submit">Search</button>
+        </div>
+        <div class="col-2">
+
+        </div>
+    </div>
+</form>
+
+<hr />
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Date Time</th>
+            <th>Cashier Name</th>
+            <th>Product Name</th>
+            <th>Qty Before</th>
+            <th>Qty Sold</th>
+            <th>Qty After</th>
+            <th style="text-align:right">Price</th>
+            <th style="text-align:right">Sold Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Transactions != null && Model.Transactions.Count() > 0)
+        {
+            @foreach (var item in Model.Transactions)
+            {
+                <tr>
+
+                    <td>@item.TimeStamp.ToString("yyyy/MM/dd hh:mm")</td>
+                    <td>@item.CashierName</td>
+                    <td>@item.ProductName</td>
+                    <td>@item.QtyBefore</td>
+                    <td>@item.QtySold</td>
+                    <td>@(item.QtyBefore - item.QtySold)</td>
+                    <td style="text-align:right">@(string.Format("{0:c}", item.Price))</td>
+                    <td style="text-align:right">@(string.Format("{0:c}", item.QtySold * item.Price))</td>
+                </tr>
+            }
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="6">&nbsp;</td>
+            <td style="text-align:right">
+                <b>Grand Total : </b>
+            </td>
+            <td style="text-align:right">
+                @(string.Format("{0:c}", Model.Transactions?.Sum(x => x.Price * x.QtySold)))
+            </td>
+        </tr>
+    </tfoot>
+</table>
