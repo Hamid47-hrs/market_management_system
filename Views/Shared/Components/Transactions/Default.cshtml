@@ -1,0 +1,40 @@
+@model IEnumerable<Transaction>
+
+@if (@Model != null && Model.Count() > 0)
+{
+    <table class="table mt-2 text-center">
+        <thead>
+            <tr>
+                <th>Cashier Name</th>
+                <th>Product Name</th>
+                <th>Date Time</th>
+                <th>Qty Before</th>
+                <th>Qty Soled</th>
+                <th>Qty After</th>
+                <th>Sold Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.CashierName</td>
+                    <td>@item.ProductName</td>
+                    <td>@item.TimeStamp</td>
+                    <td>@item.QtyBefore</td>
+                    <td>@item.QtySold</td>
+                    <td>@(item.QtyBefore - item.QtySold)</td>
+                    <td>@(string.Format("{0:c}", item.QtySold * item.Price))</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="mt-2">
+        <p class="text-center fw-bold">There is no Transaction yet.</p>
+    </div>
+}

@@ -12,10 +12,13 @@
         <tbody>
             @foreach (var prod in Model)
             {
-                <tr class="product-row" product-id="@prod.Id">
-                    <td>@prod.Name</td>
-                    <td>@prod.Quantity</td>
-                </tr>
+                if (prod.Quantity > 0)
+                {
+                    <tr class="product-row" product-id="@prod.Id">
+                        <td>@prod.Name</td>
+                        <td>@prod.Quantity</td>
+                    </tr>
+                }
             }
         </tbody>
     </table>

@@ -25,17 +25,33 @@ namespace market_management_system.Controllers
 
         public IActionResult Sell(SalesViewModel salesViewModel)
         {
-            if (!ModelState.IsValid)
-            {
-                var product = ProductsRepository.ReadProductById(salesViewModel.SelectedProductId);
-                salesViewModel.SelectedCategoryId =
-                    (product?.CategoryId == null) ? 0 : product.CategoryId;
-                salesViewModel.Categories = CategoriesRepository.ReadCategories();
+            var product = ProductsRepository.ReadProductById(salesViewModel.SelectedProductId);
 
-                return View("Index", salesViewModel);
+            if (ModelState.IsValid)
+            {
+                // var newProduct = ProductsRepository.ReadProductById(salesViewModel.SelectedProductId);
+                if (product != null && product.Quantity != null)
+                {
+                    TransactionsRepository.Add(
+                        salesViewModel.SelectedProductId,
+                        product.Name,
+                        product.Price,
+                        product.Quantity,
+                        salesViewModel.SellQuantity,
+                        "Cashier_1"
+                    );
+
+                    product.Quantity -= salesViewModel.SellQuantity;
+                    ProductsRepository.UpdateProduct(salesViewModel.SelectedProductId, product);
+                }
             }
 
-            return View("Index");
+            // ! If (!ModelState.IsValid)
+            salesViewModel.SelectedCategoryId =
+                (product?.CategoryId == null) ? 0 : product.CategoryId;
+            salesViewModel.Categories = CategoriesRepository.ReadCategories();
+
+            return View("Index", salesViewModel);
         }
     }
 };

@@ -52,7 +52,8 @@
         </form>
     </div>
     <div class="col">
-        @* trans record *@
+        @* transaction records *@
+        @await Component.InvokeAsync("Transactions", "Cashier_1")
     </div>
 </div>
 
@@ -64,6 +65,7 @@
         $(function () {
 
             $("#formSale").hide();
+            $("#SellQuantity").val("");
 
             var selectedCategoryId = $("#SelectedCategoryId").val();
             if (selectedCategoryId > 0) {
