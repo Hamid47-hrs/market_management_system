@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using market_management_system.Models;
+using market_management_system.ViewModels.Validations;
 
 namespace market_management_system.ViewModels
 {
@@ -11,6 +12,7 @@ namespace market_management_system.ViewModels
         public int SelectedProductId { get; set; }
 
         [Display(Name = "Quantity")]
+        [SalesViewModel_EnsureProperQuantity]
         public int SellQuantity { get; set; }
     }
 };

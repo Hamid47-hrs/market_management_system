@@ -22,5 +22,20 @@ namespace market_management_system.Controllers
 
             return PartialView("_ProductDetails", product);
         }
+
+        public IActionResult Sell(SalesViewModel salesViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                var product = ProductsRepository.ReadProductById(salesViewModel.SelectedProductId);
+                salesViewModel.SelectedCategoryId =
+                    (product?.CategoryId == null) ? 0 : product.CategoryId;
+                salesViewModel.Categories = CategoriesRepository.ReadCategories();
+
+                return View("Index", salesViewModel);
+            }
+
+            return View("Index");
+        }
     }
 };
