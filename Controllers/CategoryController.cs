@@ -1,13 +1,22 @@
 ﻿using market_management_system.Models;
+using market_management_system.Plugins.Plugin.DataStore.SQL;
+using market_management_system.Plugins.Plugin.DataStore.SQL.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace market_management_system.Controllers;
 
 public class CategoryController : Controller
 {
+    private readonly CategorySQLRepository categoryRepository;
+
+    public CategoryController(MarketContext db)
+    {
+        categoryRepository = CategorySQLRepository.GetInstance(db);
+    }
+
     public IActionResult Index()
     {
-        var categories = CategoriesRepository.ReadCategories();
+        var categories = categoryRepository.ReadCategories();
 
         return View(categories);
     }
@@ -25,7 +34,7 @@ public class CategoryController : Controller
             return View(category);
         }
 
-        CategoriesRepository.CreateCategory(category);
+        categoryRepository.CreateCategory(category);
 
         return RedirectToAction(nameof(Index));
     }
@@ -33,7 +42,7 @@ public class CategoryController : Controller
     public IActionResult Edit([FromRoute] string? id)
     {
         int categoryId = int.Parse(id ?? "");
-        Category category = CategoriesRepository.ReadCategoryById(categoryId)!;
+        Category category = categoryRepository.ReadCategoryById(categoryId)!;
 
         return View(category);
     }
@@ -46,7 +55,7 @@ public class CategoryController : Controller
             return View(category);
         }
 
-        CategoriesRepository.UpdateCategory(category.Id, category);
+        categoryRepository.UpdateCategory(category.Id, category);
 
         return RedirectToAction(nameof(Index));
     }
@@ -54,7 +63,7 @@ public class CategoryController : Controller
     public IActionResult Delete(string? id)
     {
         int CategoryId = int.Parse(id ?? "");
-        CategoriesRepository.DeleteCategory(CategoryId);
+        categoryRepository.DeleteCategory(CategoryId);
 
         return RedirectToAction(nameof(Index));
     }

@@ -1,15 +1,23 @@
 ﻿using market_management_system.Models;
-using market_management_system.Plugins.Plugin.DataStore.SQL;
+using Microsoft.EntityFrameworkCore;
 
 namespace market_management_system.Plugins.Plugin.DataStore.SQL.Repositories;
 
 public class CategorySQLRepository
 {
+    private static CategorySQLRepository? _instance = null;
     private readonly MarketContext db;
 
-    public CategorySQLRepository(MarketContext db)
+    private CategorySQLRepository(MarketContext db)
     {
         this.db = db;
+    }
+
+    public static CategorySQLRepository GetInstance(MarketContext db)
+    {
+        _instance ??= new CategorySQLRepository(db);
+
+        return _instance;
     }
 
     public void CreateCategory(Category category)

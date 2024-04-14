@@ -1,16 +1,23 @@
 ﻿using market_management_system.Models;
-using market_management_system.Plugins.Plugin.DataStore.SQL;
 using Microsoft.EntityFrameworkCore;
 
 namespace market_management_system.Plugins.Plugin.DataStore.SQL.Repositories;
 
 public class ProductSQLRepository
 {
+    private static ProductSQLRepository? _instance = null;
     private readonly MarketContext db;
 
-    public ProductSQLRepository(MarketContext db)
+    private ProductSQLRepository(MarketContext db)
     {
         this.db = db;
+    }
+
+    public static ProductSQLRepository GetInstance(MarketContext db)
+    {
+        _instance ??= new ProductSQLRepository(db);
+
+        return _instance;
     }
 
     public void CreateProduct(Product product)

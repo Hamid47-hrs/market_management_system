@@ -1,17 +1,23 @@
-﻿using System.Data.Common;
-using market_management_system.Models;
-using market_management_system.Plugins.Plugin.DataStore.SQL;
+﻿using market_management_system.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace market_management_system.Plugins.Plugin.DataStore.SQL.Repositories;
 
 public class TransactionSQLRepository
 {
+    private static TransactionSQLRepository? _instance = null;
     private readonly MarketContext db;
 
-    public TransactionSQLRepository(MarketContext db)
+    private TransactionSQLRepository(MarketContext db)
     {
         this.db = db;
+    }
+
+    public static TransactionSQLRepository GetInstance(MarketContext db)
+    {
+        _instance ??= new TransactionSQLRepository(db);
+
+        return _instance;
     }
 
     public void Add(
