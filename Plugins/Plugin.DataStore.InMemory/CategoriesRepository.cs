@@ -1,4 +1,6 @@
-﻿namespace market_management_system.Models;
+﻿using market_management_system.Models;
+
+namespace market_management_system.Plugins.Plugin.DataStore.InMemory;
 
 public static class CategoriesRepository
 {
