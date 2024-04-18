@@ -21,9 +21,9 @@ namespace market_management_system.Controllers
             IViewProductsUseCase viewProductsUseCase,
             IViewProductUseCase viewProductUseCase,
             IViewProductsByCategoryUseCase viewProductsByCategoryUseCase,
-            UpdateProductUseCase updateProductUseCase,
+            IUpdateProductUseCase updateProductUseCase,
             IDeleteProductUseCase deleteProductUseCase,
-            ViewCategoriesUseCase viewCategoriesUseCase
+            IViewCategoriesUseCase viewCategoriesUseCase
         )
         {
             this.createProductUseCase = createProductUseCase;
