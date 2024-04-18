@@ -1,4 +1,4 @@
-namespace market_management_system.Models;
+namespace CoreBusiness;
 
 public class ErrorViewModel
 {

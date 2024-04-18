@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using market_management_system.Models;
+using UseCases.ProductsUseCases;
 
 namespace market_management_system.ViewModels.Validations;
 
@@ -17,15 +17,22 @@ public class SalesViewModel_EnsureProperQuantity : ValidationAttribute
             }
             else
             {
-                var product = ProductsRepository.ReadProductById(salesViewModel.SelectedProductId);
+                var productByIdUseCase =
+                    validationContext.GetService(typeof(IViewProductUseCase))
+                    as IViewProductUseCase;
 
-                if (product != null)
+                if (productByIdUseCase != null)
                 {
-                    if (product.Quantity < salesViewModel.SellQuantity)
+                    var product = productByIdUseCase.Execute(salesViewModel.SelectedProductId);
+
+                    if (product != null)
                     {
-                        return new ValidationResult(
-                            $"There is only {product.Quantity} {product.Name} left?!"
-                        );
+                        if (product.Quantity < salesViewModel.SellQuantity)
+                        {
+                            return new ValidationResult(
+                                $"There is only {product.Quantity} {product.Name} left?!"
+                            );
+                        }
                     }
                 }
                 else

@@ -1,5 +1,5 @@
 using System.Diagnostics;
-using market_management_system.Models;
+using CoreBusiness;
 using Microsoft.AspNetCore.Mvc;
 
 namespace market_management_system.Controllers;

@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using market_management_system.Models;
+using CoreBusiness;
 using market_management_system.ViewModels.Validations;
 
 namespace market_management_system.ViewModels

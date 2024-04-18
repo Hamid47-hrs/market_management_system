@@ -1,4 +1,4 @@
-﻿using market_management_system.Models;
+﻿using CoreBusiness;
 
 namespace market_management_system.ViewModels
 {
