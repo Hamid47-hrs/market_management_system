@@ -1,7 +1,19 @@
+using Plugins.DataStore.InMemory;
+using UseCases.CategoriesUseCases;
+using UseCases.DataStorePluginInterfaces;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddSingleton<ICategoryRepository, CategoriesInMemoryRepository>();
+
+builder.Services.AddTransient<ICreateCategoryUseCase, CreateCategoryUseCase>();
+builder.Services.AddTransient<IViewCategoriesUseCase, ViewCategoriesUseCase>();
+builder.Services.AddTransient<IViewSelectedCategoryUseCase, ViewSelectedCategoryUseCase>();
+builder.Services.AddTransient<IUpdateCategoryUseCase, UpdateCategoryUseCase>();
+builder.Services.AddTransient<IDeleteCategoryUseCase, DeleteCategoryUseCase>();
 
 var app = builder.Build();
 
@@ -20,8 +32,6 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

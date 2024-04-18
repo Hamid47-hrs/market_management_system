@@ -5,39 +5,39 @@ namespace Plugins.DataStore.InMemory
 {
     public class CategoriesInMemoryRepository : ICategoryRepository
     {
-        private  List<Category> _categories =
-    [
-        new Category
-        {
-            Id = 1,
-            Name = "test1",
-            Description =
-                "aLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        },
-        new Category
-        {
-            Id = 2,
-            Name = "test2",
-            Description =
-                "aLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        },
-        new Category
-        {
-            Id = 3,
-            Name = "test3",
-            Description =
-                "aLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        },
-        new Category
-        {
-            Id = 4,
-            Name = "test4",
-            Description =
-                "aLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        }
-    ];
+        private List<Category> _categories =
+        [
+            new Category
+            {
+                Id = 1,
+                Name = "test1",
+                Description =
+                    "aLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+            },
+            new Category
+            {
+                Id = 2,
+                Name = "test2",
+                Description =
+                    "aLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+            },
+            new Category
+            {
+                Id = 3,
+                Name = "test3",
+                Description =
+                    "aLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+            },
+            new Category
+            {
+                Id = 4,
+                Name = "test4",
+                Description =
+                    "aLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+            }
+        ];
 
-        public  void CreateCategory(Category category)
+        public void CreateCategory(Category category)
         {
             if (_categories != null && _categories.Count > 0)
             {
@@ -54,9 +54,9 @@ namespace Plugins.DataStore.InMemory
             _categories.Add(category);
         }
 
-        public  IEnumerable<Category> ReadCategories() => _categories;
+        public IEnumerable<Category> ReadCategories() => _categories;
 
-        public  Category? ReadCategoryById(int id)
+        public Category? ReadCategoryById(int id)
         {
             var category = _categories.FirstOrDefault(item => item.Id == id);
 
@@ -73,7 +73,7 @@ namespace Plugins.DataStore.InMemory
             return null;
         }
 
-        public  void UpdateCategory(int id, Category newCategory)
+        public void UpdateCategory(int id, Category newCategory)
         {
             if (id != newCategory.Id)
                 return;
@@ -87,7 +87,7 @@ namespace Plugins.DataStore.InMemory
             }
         }
 
-        public  void DeleteCategory(int id)
+        public void DeleteCategory(int id)
         {
             var category = _categories.FirstOrDefault(item => item.Id == id);
             if (category != null)
