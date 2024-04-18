@@ -1,13 +1,35 @@
-﻿using market_management_system.Models;
+﻿using CoreBusiness;
 using Microsoft.AspNetCore.Mvc;
+using UseCases.CategoriesUseCases;
 
 namespace market_management_system.Controllers;
 
 public class CategoryController : Controller
 {
+    private readonly ICreateCategoryUseCase createCategoryUseCase;
+    private readonly IViewCategoriesUseCase viewCategoriesUseCase;
+    private readonly IViewSelectedCategoryUseCase viewSelectedCategoryUseCase;
+    private readonly IUpdateCategoryUseCase updateCategoryUseCase;
+    private readonly IDeleteCategoryUseCase deleteCategoryUseCase;
+
+    public CategoryController(
+        ICreateCategoryUseCase createCategoryUseCase,
+        IViewCategoriesUseCase viewCategoriesUseCase,
+        IViewSelectedCategoryUseCase viewSelectedCategoryUseCase,
+        IUpdateCategoryUseCase updateCategoryUseCase,
+        IDeleteCategoryUseCase deleteCategoryUseCase
+    )
+    {
+        this.createCategoryUseCase = createCategoryUseCase;
+        this.viewCategoriesUseCase = viewCategoriesUseCase;
+        this.viewSelectedCategoryUseCase = viewSelectedCategoryUseCase;
+        this.updateCategoryUseCase = updateCategoryUseCase;
+        this.deleteCategoryUseCase = deleteCategoryUseCase;
+    }
+
     public IActionResult Index()
     {
-        var categories = CategoriesRepository.ReadCategories();
+        var categories = viewCategoriesUseCase.Execute();
 
         return View(categories);
     }
@@ -25,7 +47,7 @@ public class CategoryController : Controller
             return View(category);
         }
 
-        CategoriesRepository.CreateCategory(category);
+        createCategoryUseCase.Execute(category);
 
         return RedirectToAction(nameof(Index));
     }
@@ -33,7 +55,7 @@ public class CategoryController : Controller
     public IActionResult Edit([FromRoute] string? id)
     {
         int categoryId = int.Parse(id ?? "");
-        Category category = CategoriesRepository.ReadCategoryById(categoryId)!;
+        Category? category = viewSelectedCategoryUseCase.Execute(categoryId);
 
         return View(category);
     }
@@ -46,15 +68,15 @@ public class CategoryController : Controller
             return View(category);
         }
 
-        CategoriesRepository.UpdateCategory(category.Id, category);
+        updateCategoryUseCase.Execute(category.Id, category);
 
         return RedirectToAction(nameof(Index));
     }
 
     public IActionResult Delete(string? id)
     {
-        int CategoryId = int.Parse(id ?? "");
-        CategoriesRepository.DeleteCategory(CategoryId);
+        int categoryId = int.Parse(id ?? "");
+        deleteCategoryUseCase.Execute(categoryId);
 
         return RedirectToAction(nameof(Index));
     }

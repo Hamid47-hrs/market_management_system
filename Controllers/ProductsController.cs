@@ -1,14 +1,43 @@
-﻿using market_management_system.Models;
+﻿using CoreBusiness;
 using market_management_system.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using UseCases.CategoriesUseCases;
+using UseCases.ProductsUseCases;
 
 namespace market_management_system.Controllers
 {
     public class ProductsController : Controller
     {
+        private readonly ICreateProductUseCase createProductUseCase;
+        private readonly IViewProductsUseCase viewProductsUseCase;
+        private readonly IViewProductUseCase viewProductUseCase;
+        private readonly IViewProductsByCategoryUseCase viewProductsByCategoryUseCase;
+        private readonly IUpdateProductUseCase updateProductUseCase;
+        private readonly IDeleteProductUseCase deleteProductUseCase;
+        private readonly IViewCategoriesUseCase viewCategoriesUseCase;
+
+        public ProductsController(
+            ICreateProductUseCase createProductUseCase,
+            IViewProductsUseCase viewProductsUseCase,
+            IViewProductUseCase viewProductUseCase,
+            IViewProductsByCategoryUseCase viewProductsByCategoryUseCase,
+            UpdateProductUseCase updateProductUseCase,
+            IDeleteProductUseCase deleteProductUseCase,
+            ViewCategoriesUseCase viewCategoriesUseCase
+        )
+        {
+            this.createProductUseCase = createProductUseCase;
+            this.viewProductsUseCase = viewProductsUseCase;
+            this.viewProductUseCase = viewProductUseCase;
+            this.viewProductsByCategoryUseCase = viewProductsByCategoryUseCase;
+            this.updateProductUseCase = updateProductUseCase;
+            this.deleteProductUseCase = deleteProductUseCase;
+            this.viewCategoriesUseCase = viewCategoriesUseCase;
+        }
+
         public IActionResult Index()
         {
-            var products = ProductsRepository.ReadProducts(loadCategory: true);
+            var products = viewProductsUseCase.Execute(loadCategory: true);
 
             return View(products);
         }
@@ -17,7 +46,7 @@ namespace market_management_system.Controllers
         {
             var productViewModel = new ProductViewModel
             {
-                Categories = CategoriesRepository.ReadCategories()
+                Categories = viewCategoriesUseCase.Execute()
             };
 
             return View(productViewModel);
@@ -28,11 +57,11 @@ namespace market_management_system.Controllers
         {
             if (!ModelState.IsValid)
             {
-                productViewModel.Categories = CategoriesRepository.ReadCategories();
+                productViewModel.Categories = viewCategoriesUseCase.Execute();
                 return View(productViewModel);
             }
 
-            ProductsRepository.CreateProduct(productViewModel.Product);
+            createProductUseCase.Execute(productViewModel.Product);
 
             return RedirectToAction(nameof(Index));
         }
@@ -43,8 +72,8 @@ namespace market_management_system.Controllers
 
             var productViewModel = new ProductViewModel
             {
-                Product = ProductsRepository.ReadProductById(productId) ?? new Product(),
-                Categories = CategoriesRepository.ReadCategories()
+                Product = viewProductUseCase.Execute(productId) ?? new Product(),
+                Categories = viewCategoriesUseCase.Execute()
             };
 
             return View(productViewModel);
@@ -55,11 +84,11 @@ namespace market_management_system.Controllers
         {
             if (!ModelState.IsValid)
             {
-                productViewModel.Categories = CategoriesRepository.ReadCategories();
+                productViewModel.Categories = viewCategoriesUseCase.Execute();
                 return View(productViewModel);
             }
 
-            ProductsRepository.UpdateProduct(productViewModel.Product.Id, productViewModel.Product);
+            updateProductUseCase.Execute(productViewModel.Product.Id, productViewModel.Product);
 
             return RedirectToAction(nameof(Index));
         }
@@ -67,14 +96,14 @@ namespace market_management_system.Controllers
         public IActionResult Delete(string? id)
         {
             int productId = int.Parse(id ?? "");
-            ProductsRepository.DeleteProduct(productId);
+            deleteProductUseCase.Execute(productId);
 
             return RedirectToAction(nameof(Index));
         }
 
         public IActionResult ProductsByCategoryPartial(int categoryId)
         {
-            var products = ProductsRepository.GetProductsByCategoryId(categoryId);
+            var products = viewProductsByCategoryUseCase.Execute(categoryId);
 
             return PartialView("_Products", products);
         }

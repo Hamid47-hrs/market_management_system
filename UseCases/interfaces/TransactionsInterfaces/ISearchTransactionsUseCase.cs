@@ -4,5 +4,5 @@ namespace UseCases.TransactionsUseCase;
 
 public interface ISearchTransactionsUseCase
 {
-    IEnumerable<Transaction> Execute(DateTime date, string cashier);
+    IEnumerable<Transaction> Execute(string cashier, DateTime startDate, DateTime endDate);
 }

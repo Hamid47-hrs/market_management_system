@@ -1,16 +1,36 @@
-﻿using market_management_system.Models;
-using market_management_system.ViewModels;
+﻿using market_management_system.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using UseCases.CategoriesUseCases;
+using UseCases.ProductsUseCases;
+using UseCases.TransactionsUseCase;
 
 namespace market_management_system.Controllers
 {
     public class SalesController : Controller
     {
+        private readonly IViewCategoriesUseCase viewCategoriesUseCase;
+        private readonly IViewProductUseCase viewProductUseCase;
+        private readonly IUpdateProductUseCase updateProductUseCase;
+        private readonly IAddTransactionUseCase addTransactionUseCase;
+
+        public SalesController(
+            IViewCategoriesUseCase viewCategoriesUseCase,
+            IViewProductUseCase viewProductUseCase,
+            IUpdateProductUseCase updateProductUseCase,
+            IAddTransactionUseCase addTransactionUseCase
+        )
+        {
+            this.viewCategoriesUseCase = viewCategoriesUseCase;
+            this.viewProductUseCase = viewProductUseCase;
+            this.updateProductUseCase = updateProductUseCase;
+            this.addTransactionUseCase = addTransactionUseCase;
+        }
+
         public IActionResult Index()
         {
             var salesViewModel = new SalesViewModel
             {
-                Categories = CategoriesRepository.ReadCategories()
+                Categories = viewCategoriesUseCase.Execute()
             };
 
             return View(salesViewModel);
@@ -18,21 +38,21 @@ namespace market_management_system.Controllers
 
         public IActionResult SalesProductPartial(int productId)
         {
-            var product = ProductsRepository.ReadProductById(productId);
+            var product = viewProductUseCase.Execute(productId);
 
             return PartialView("_ProductDetails", product);
         }
 
         public IActionResult Sell(SalesViewModel salesViewModel)
         {
-            var product = ProductsRepository.ReadProductById(salesViewModel.SelectedProductId);
+            var product = viewProductUseCase.Execute(salesViewModel.SelectedProductId);
 
             if (ModelState.IsValid)
             {
                 // var newProduct = ProductsRepository.ReadProductById(salesViewModel.SelectedProductId);
                 if (product != null && product.Quantity != null)
                 {
-                    TransactionsRepository.Add(
+                    addTransactionUseCase.Execute(
                         salesViewModel.SelectedProductId,
                         product.Name,
                         product.Price,
@@ -42,14 +62,14 @@ namespace market_management_system.Controllers
                     );
 
                     product.Quantity -= salesViewModel.SellQuantity;
-                    ProductsRepository.UpdateProduct(salesViewModel.SelectedProductId, product);
+                    updateProductUseCase.Execute(salesViewModel.SelectedProductId, product);
                 }
             }
 
             // ! If (!ModelState.IsValid)
             salesViewModel.SelectedCategoryId =
                 (product?.CategoryId == null) ? 0 : product.CategoryId;
-            salesViewModel.Categories = CategoriesRepository.ReadCategories();
+            salesViewModel.Categories = viewCategoriesUseCase.Execute();
 
             return View("Index", salesViewModel);
         }

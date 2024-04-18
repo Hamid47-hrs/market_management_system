@@ -1,11 +1,19 @@
-﻿using market_management_system.Models;
+﻿using CoreBusiness;
 using market_management_system.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using UseCases.TransactionsUseCase;
 
 namespace market_management_system.Controllers;
 
 public class TransactionsController : Controller
 {
+    private readonly ISearchTransactionsUseCase searchTransactionsUseCase;
+
+    public TransactionsController(ISearchTransactionsUseCase searchTransactionsUseCase)
+    {
+        this.searchTransactionsUseCase = searchTransactionsUseCase;
+    }
+
     public IActionResult Index()
     {
         TransactionsViewModel transactionsViewModel = new TransactionsViewModel();
@@ -15,7 +23,7 @@ public class TransactionsController : Controller
 
     public IActionResult Search(TransactionsViewModel transactionsViewModel)
     {
-        var transactions = TransactionsRepository.Search(
+        var transactions = searchTransactionsUseCase.Execute(
             transactionsViewModel.CashierName ?? "",
             transactionsViewModel.StartDate,
             transactionsViewModel.EndDate

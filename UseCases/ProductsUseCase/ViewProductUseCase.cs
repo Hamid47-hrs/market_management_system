@@ -12,8 +12,8 @@ public class ViewProductUseCase : IViewProductUseCase
         this.productRepository = productRepository;
     }
 
-    public Product? Execute(int productId)
+    public Product? Execute(int productId, bool loadCategory)
     {
-        return productRepository.ReadProductById(productId);
+        return productRepository.ReadProductById(productId, loadCategory);
     }
 }
