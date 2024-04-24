@@ -17,9 +17,9 @@ namespace UseCases.CategoriesUseCases
             this.categoryRepository = categoryRepository;
         }
 
-        public void Execute(Category cateogory)
+        public void Execute(Category category)
         {
-            categoryRepository.CreateCategory(cateogory);
+            categoryRepository.CreateCategory(category);
         }
     }
 }
