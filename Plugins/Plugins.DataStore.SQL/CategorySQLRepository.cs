@@ -4,11 +4,11 @@ using UseCases.DataStorePluginInterfaces;
 
 namespace Plugins.DataStore.SQL;
 
-public class CategorySQLRespository : ICategoryRepository
+public class CategorySQLRepository : ICategoryRepository
 {
     private readonly MarketContext db;
 
-    public CategorySQLRespository(MarketContext db)
+    public CategorySQLRepository(MarketContext db)
     {
         this.db = db;
     }

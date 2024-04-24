@@ -16,9 +16,18 @@ builder.Services.AddDbContext<MarketContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MarketManagement"));
 });
 
-builder.Services.AddSingleton<ICategoryRepository, CategoriesInMemoryRepository>();
-builder.Services.AddSingleton<IProductRepository, ProductsInMemoryRepository>();
-builder.Services.AddSingleton<ITransactionRepository, TransactionsInMemoryRepository>();
+if (builder.Environment.IsEnvironment("Quality_Assurance"))
+{
+    builder.Services.AddSingleton<ICategoryRepository, CategoriesInMemoryRepository>();
+    builder.Services.AddSingleton<IProductRepository, ProductsInMemoryRepository>();
+    builder.Services.AddSingleton<ITransactionRepository, TransactionsInMemoryRepository>();
+}
+else
+{
+    builder.Services.AddTransient<ICategoryRepository, CategorySQLRepository>();
+    builder.Services.AddTransient<IProductRepository, ProductSQLRepository>();
+    builder.Services.AddTransient<ITransactionRepository, TransactionSQLRepository>();
+}
 
 // * Categories * //
 builder.Services.AddTransient<ICreateCategoryUseCase, CreateCategoryUseCase>();
