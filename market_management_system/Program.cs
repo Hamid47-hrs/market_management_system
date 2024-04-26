@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Identity;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<MarketContext>(options =>
 {
@@ -24,6 +23,10 @@ builder.Services.AddDbContext<AccountContext>(options =>
 });
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<AccountContext>();
+
+builder.Services.AddRazorPages();
+
+builder.Services.AddControllersWithViews();
 
 if (builder.Environment.IsEnvironment("Quality_Assurance"))
 {
@@ -73,8 +76,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapRazorPages();
 app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

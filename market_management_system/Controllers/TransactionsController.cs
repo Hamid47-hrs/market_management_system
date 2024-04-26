@@ -1,9 +1,11 @@
 ﻿using market_management_system.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UseCases.TransactionsUseCase;
 
 namespace market_management_system.Controllers;
 
+[Authorize]
 public class TransactionsController : Controller
 {
     private readonly ISearchTransactionsUseCase searchTransactionsUseCase;

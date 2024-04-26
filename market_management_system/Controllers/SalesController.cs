@@ -1,4 +1,5 @@
 ﻿using market_management_system.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UseCases.CategoriesUseCases;
 using UseCases.ProductsUseCases;
@@ -6,6 +7,7 @@ using UseCases.TransactionsUseCase;
 
 namespace market_management_system.Controllers
 {
+    [Authorize]
     public class SalesController : Controller
     {
         private readonly IViewCategoriesUseCase viewCategoriesUseCase;

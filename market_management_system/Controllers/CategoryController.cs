@@ -1,9 +1,11 @@
 ﻿using CoreBusiness;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UseCases.CategoriesUseCases;
 
 namespace market_management_system.Controllers;
 
+[Authorize]
 public class CategoryController : Controller
 {
     private readonly ICreateCategoryUseCase createCategoryUseCase;

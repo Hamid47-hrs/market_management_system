@@ -1,11 +1,13 @@
 ﻿using CoreBusiness;
 using market_management_system.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UseCases.CategoriesUseCases;
 using UseCases.ProductsUseCases;
 
 namespace market_management_system.Controllers
 {
+    [Authorize]
     public class ProductsController : Controller
     {
         private readonly ICreateProductUseCase createProductUseCase;
