@@ -28,6 +28,12 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Inventory", p => p.RequireClaim("Position", "Inventory"));
+    options.AddPolicy("Cashier", p => p.RequireClaim("Position", "Cashier"));
+});
+
 if (builder.Environment.IsEnvironment("Quality_Assurance"))
 {
     builder.Services.AddSingleton<ICategoryRepository, CategoriesInMemoryRepository>();

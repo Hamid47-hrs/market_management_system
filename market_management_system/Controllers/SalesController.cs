@@ -7,25 +7,28 @@ using UseCases.TransactionsUseCase;
 
 namespace market_management_system.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "Cashier")]
     public class SalesController : Controller
     {
         private readonly IViewCategoriesUseCase viewCategoriesUseCase;
         private readonly IViewProductUseCase viewProductUseCase;
         private readonly IUpdateProductUseCase updateProductUseCase;
         private readonly IAddTransactionUseCase addTransactionUseCase;
+        private readonly IViewProductsByCategoryUseCase viewProductsByCategoryUseCase;
 
         public SalesController(
             IViewCategoriesUseCase viewCategoriesUseCase,
             IViewProductUseCase viewProductUseCase,
             IUpdateProductUseCase updateProductUseCase,
-            IAddTransactionUseCase addTransactionUseCase
+            IAddTransactionUseCase addTransactionUseCase,
+            IViewProductsByCategoryUseCase viewProductsByCategoryUseCase
         )
         {
             this.viewCategoriesUseCase = viewCategoriesUseCase;
             this.viewProductUseCase = viewProductUseCase;
             this.updateProductUseCase = updateProductUseCase;
             this.addTransactionUseCase = addTransactionUseCase;
+            this.viewProductsByCategoryUseCase = viewProductsByCategoryUseCase;
         }
 
         public IActionResult Index()
@@ -74,6 +77,13 @@ namespace market_management_system.Controllers
             salesViewModel.Categories = viewCategoriesUseCase.Execute();
 
             return View("Index", salesViewModel);
+        }
+
+        public IActionResult ProductsByCategoryPartial(int categoryId)
+        {
+            var products = viewProductsByCategoryUseCase.Execute(categoryId);
+
+            return PartialView("_Products", products);
         }
     }
 };

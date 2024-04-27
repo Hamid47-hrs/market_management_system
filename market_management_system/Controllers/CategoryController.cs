@@ -5,7 +5,7 @@ using UseCases.CategoriesUseCases;
 
 namespace market_management_system.Controllers;
 
-[Authorize]
+[Authorize(Policy = "Inventory")]
 public class CategoryController : Controller
 {
     private readonly ICreateCategoryUseCase createCategoryUseCase;

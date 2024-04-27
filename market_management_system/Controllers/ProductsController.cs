@@ -7,13 +7,12 @@ using UseCases.ProductsUseCases;
 
 namespace market_management_system.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "Inventory")]
     public class ProductsController : Controller
     {
         private readonly ICreateProductUseCase createProductUseCase;
         private readonly IViewProductsUseCase viewProductsUseCase;
         private readonly IViewProductUseCase viewProductUseCase;
-        private readonly IViewProductsByCategoryUseCase viewProductsByCategoryUseCase;
         private readonly IUpdateProductUseCase updateProductUseCase;
         private readonly IDeleteProductUseCase deleteProductUseCase;
         private readonly IViewCategoriesUseCase viewCategoriesUseCase;
@@ -22,7 +21,6 @@ namespace market_management_system.Controllers
             ICreateProductUseCase createProductUseCase,
             IViewProductsUseCase viewProductsUseCase,
             IViewProductUseCase viewProductUseCase,
-            IViewProductsByCategoryUseCase viewProductsByCategoryUseCase,
             IUpdateProductUseCase updateProductUseCase,
             IDeleteProductUseCase deleteProductUseCase,
             IViewCategoriesUseCase viewCategoriesUseCase
@@ -31,7 +29,6 @@ namespace market_management_system.Controllers
             this.createProductUseCase = createProductUseCase;
             this.viewProductsUseCase = viewProductsUseCase;
             this.viewProductUseCase = viewProductUseCase;
-            this.viewProductsByCategoryUseCase = viewProductsByCategoryUseCase;
             this.updateProductUseCase = updateProductUseCase;
             this.deleteProductUseCase = deleteProductUseCase;
             this.viewCategoriesUseCase = viewCategoriesUseCase;
@@ -101,13 +98,6 @@ namespace market_management_system.Controllers
             deleteProductUseCase.Execute(productId);
 
             return RedirectToAction(nameof(Index));
-        }
-
-        public IActionResult ProductsByCategoryPartial(int categoryId)
-        {
-            var products = viewProductsByCategoryUseCase.Execute(categoryId);
-
-            return PartialView("_Products", products);
         }
     }
 };
