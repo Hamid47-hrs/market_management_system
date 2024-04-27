@@ -55,7 +55,7 @@ namespace market_management_system.Controllers
             if (ModelState.IsValid)
             {
                 // var newProduct = ProductsRepository.ReadProductById(salesViewModel.SelectedProductId);
-                if (product != null && product.Quantity != null)
+                if (product != null && product.Quantity != null && User != null)
                 {
                     addTransactionUseCase.Execute(
                         salesViewModel.SelectedProductId,
@@ -63,7 +63,7 @@ namespace market_management_system.Controllers
                         product.Price,
                         product.Quantity,
                         salesViewModel.SellQuantity,
-                        "Cashier_1"
+                        User?.Identity?.Name
                     );
 
                     product.Quantity -= salesViewModel.SellQuantity;

@@ -53,7 +53,10 @@
     </div>
     <div class="col">
         @* transaction records *@
-        @await Component.InvokeAsync("Transactions", "Cashier_1")
+        @if (User != null && User.Identity != null)
+        {
+            @await Component.InvokeAsync("Transactions", @User.Identity.Name)
+        }
     </div>
 </div>
 

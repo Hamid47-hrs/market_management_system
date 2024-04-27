@@ -41,12 +41,12 @@ public class TransactionSQLRepository : ITransactionRepository
     {
         if (string.IsNullOrWhiteSpace(cashier))
         {
-            return db.Transactions.Where(x => x.TimeStamp == date.Date);
+            return db.Transactions.Where(x => x.TimeStamp.Date == date.Date);
         }
         else
         {
             return db.Transactions.Where(x =>
-                EF.Functions.Like(x.CashierName, $"%{cashier}%") && x.TimeStamp == date.Date
+                EF.Functions.Like(x.CashierName, $"%{cashier}%") && x.TimeStamp.Date == date.Date
             );
         }
     }
@@ -56,7 +56,7 @@ public class TransactionSQLRepository : ITransactionRepository
         if (string.IsNullOrWhiteSpace(cashier))
         {
             return db.Transactions.Where(x =>
-                x.TimeStamp >= startDate.Date && x.TimeStamp <= endDate.Date
+                x.TimeStamp.Date >= startDate.Date && x.TimeStamp.Date <= endDate.Date
             );
         }
         else
